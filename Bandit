@@ -1,0 +1,257 @@
+#Level0 -> Level1
+ssh bandit0@bandit.labs.overthewire.org -p 2220
+@show all file
+ls -la
+@show contents of file
+cat readme
+@I find boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+#Level1 -> Level2
+cd ..
+ls -la
+@there is - file
+cat ../bandit1/-
+@ I find CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+#Level2 -> Level3
+ls -la
+@there a file with space in the name
+cat "spaces in this filename"
+@I find UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+#Level3 -> Level4
+cd inhere
+ls -la
+@there is hidden file with "." caracter
+cat .hidden
+@I find pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+#Level4 -> Level5
+cd inhere
+@use strings command to see human-readable file
+strings ..
+cat ../inhere/-file07
+@I find koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+#Level5 -> Level6
+cd inhere
+@search file with size of 1033 bytes
+find ./ -size 1033c 2>/dev/null
+cat ../inhere/maybehere07/.file2
+@I find DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+#Level6 -> Level7
+@search file in the system with specific user, group and size
+find / -size 33c -user bandit7 -group bandit6 2>/dev/null
+cat /var/lib/dpkg/info/bandit7.password
+@I find HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+#Level7 -> Level8
+@search in data.txt the row where there is "millionth" word
+cat data.txt | grep "millionth"
+@I find cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+#Level8 -> Level9
+@search in data.txt the only unique row
+sort data.txt | uniq -u
+#I find UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+#Level9 -> Level10
+@search in data.txt the only human-readable row and there is inside "=" character 
+strings data.txt | grep "="
+@I find truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+#Level10 -> Level11
+@decrypt base64 text in data.txt file
+base64 -d data.txt
+@I find IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+#Level11 -> Level12
+@use ROT13 algorithm to decrypt text in data.txt file
+cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+@I find 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+#Level12 -> Level13
+@create temporary folder
+mkdir /tmp/level12
+@copy the file in the new folder
+cp data.txt /tmp/level12/data.txt
+cd /tmp/level12
+@convert hexdump file in binary file
+xxd -r data.txt > data
+@see the type of binary file
+file data
+@data is gzip compressed file
+mv data data.gz
+@extract gzip archive
+gzip -d data.gz
+file data
+@data is bzip2 compressed file
+mv data data.bz2
+@extract gzip2 archive
+bzip2 -d data.bz2
+file data
+@data is gzip compressed file
+mv data data.gz
+gzip -d data.gz
+file data
+@data is tar archive and i extract it
+tar -xvf data.tar
+file data5.bin
+@data5.bin is tar archive
+tar -xvf data5.bin
+file data6.bin
+@data6.bin is bzip2 compressed file
+bzip2 -d data6.bin
+mv data6.bin.out data8.bin
+file data8.bin
+@data8.bin is tar archive
+tar -xvf data8.bin
+mv data8.bin data9.bin
+file data9.bin
+@data9.bin is gzip compressed file
+mv data9.bin data9.bin.gz
+gzip -d data9.bin.gz
+cat data9.bin
+@I find 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+#Level13 -> Level14
+@connect to bandit14 with its ssh private key
+ssh -i sshkey.private bandit14@localhost
+cat /etc/bandit_pass/bandit14
+@I find 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+#Level14 -> Level15
+@send specific string to localhost in specific port
+echo "4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e" | netcat localhost 30000
+#I find BfMYroe26WYalil77FoDi9qh59eK5xNr
+#Level15 -> Level16
+@open comunication with specific port with ssl certificate
+ncat --ssl localhost 30001
+@send current password
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+@I find cluFn7wTiGryunymYOu4RcffSxQluehd
+#Level16 -> Level17
+@scan localhost port with specific range to see open port
+nmap localhost -p 31000-32000
+@find only 5 open port - 31046/tcp 31518/tcp 31691/tcp 31790/tcp 31960/tcp
+@test all open port with sending current password
+ncat --ssl localhost 31790
+cluFn7wTiGryunymYOu4RcffSxQluehd
+@only one reply with strange message
+@I find RSA PRIVATE KEY and i save it in /level16/id_rsa
+#Level17 -> Level18
+@i use id_rsa for establish ssh connection with user bandit17
+ssh -i /level16/id_rsa bandit17@bandit.labs.overthewire.org -p 2220
+ls -la
+@check differences between the files 
+diff passwords.new passwords.old
+@I find kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+#Level18 -> Level19
+@after the connection, the session close automatically
+@execute command to see the list of file before the closing
+ssh bandit18@bandit.labs.overthewire.org -p 2220 "ls -la"
+@there is readme file and see the content with other connection
+ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"
+@I find IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+#Level19 -> Level20
+@there is setuid file than execute argoments command with user bandit20
+./bandit20-do cat /etc/bandit_pass/bandit20
+@I find GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+#Level20 -> Level21
+@the host machine send the current password to specific port repeatedly 
+echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l localhost -p 4444 &
+@execute victim script than connect it to specific port
+./suconnect 4444
+@I find gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+#Level21 -> Level22
+@see if there is anything in crontab
+cat /etc/cron.d/cronjob_bandit22
+@there is a script that is execute every minute, see its content
+cat /usr/bin/cronjob_bandit22.sh
+@script save the bandit22 password in tmp folder
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+@I find Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+#Level22 -> Level23
+cat /etc/cron.d/cronjob_bandit23
+cat /usr/bin/cronjob_bandit23.sh
+@script save the bandit23 password in tmp folder with specific filename
+@execute command to find this filename (find it in the third row of script)
+echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+@the filename is 8ca319486bfbbc3663ea0fbe81326349
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+@I find jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+#Level23 -> Level24
+cat /etc/cron.d/cronjob_bandit24
+cat /usr/bin/cronjob_bandit24.sh
+@script execute all files in /var/spool/bandit folder and delete them
+cd /var/spool/bandit24
+@create script that copy bandit24 password and save it in tmp folder, give execution permission to it
+echo "mkdir /tmp/pwd_shell; cp /etc/bandit_pass/bandit24 /tmp/pwd_shell/bandit24; chmod 777 /tmp/pwd_shell/bandit24" > shell.sh; chmod +x shell.sh
+cat /tmp/pwd_shell/bandit24
+@I find UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+#Level24 -> Level25
+mkdir /tmp/bruteforce
+cd /tmp/bruteforce
+echo "for x in {0000..9999}; do echo "UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ" $i | telnet localhost 30002; done >> pincode-gen.sh
+@give execution permission and start it
+chmod +x pincode-gen.sh && ./pincode-gen.sh > history.log
+@find received password excluding error message 
+sort history.txt | uniq -d
+@I find uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+#Level25 -> Level26
+ssh -i bandit26.sshkey bandit26@localhost
+@after connection, the ssh session closed by printing bandit26 message 
+@reduce size of terminal, than compire -More(66%)-
+v
+@execute command with vim console
+:e /etc/bandit_pass/bandit26
+@I find 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+#Level26 -> Level27
+@reduce size of terminal and execute ssh connection
+@than compire -More(66%)-
+v
+@change shell setting with vim and set bash shell 
+:set shell=/bin/bash
+@and start it
+:shell
+./bandit27-do cat /etc/bandit_pass/bandit27
+@I find 3ba3118a22e93127a4ed485be72ef5ea
+#Level27 -> Level28
+@on my personal pc, cloning folder bandit27-git
+git clone ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo
+cd repo
+cat README
+@I find 0ef186ac70e04ea33b4c1853d2526fa2
+#Level28 -> Level29
+@on my personal pc, cloning folder bandit27-git
+git clone ssh://bandit28-git@bandit.labs.overthewire.org:2220/home/bandit28-git/repo
+cd repo
+git log
+@show different commit and i think there is one with password
+git show edd935d
+@I find bbc96594b4e001778eee9975372716b2
+#Level29 -> Level30
+git clone ssh://bandit29-git@bandit.labs.overthewire.org:2220/home/bandit29-git/repo
+cd repo
+@show all branch of git directory
+git branch -a
+@select dev branch
+git checkout dev
+cat README.md
+@I find 5b90576bedb2cc04c86a9e924ce42faf
+#Level30 -> Level31
+git clone ssh://bandit30-git@bandit.labs.overthewire.org:2220/home/bandit30-git/repo
+cd repo
+@show all tag of git directory
+git tag
+@show 'secret' tag
+git show secret
+@I find 47e603bb428404d265f59c42920d81e5
+#Level31 -> Level32
+git clone ssh://bandit31-git@bandit.labs.overthewire.org:2220/home/bandit31-git/repo
+cd repo
+cat README.md
+@there is instruction for creating file
+echo "May I come in?" > key.txt
+@add file to git repository, use -f(-force) beacuse .gitignore have rule that exclude all .txt file 
+git add -f key.txt
+@prepare the commit
+git commit -m key.txt
+@push modify in the master branch
+git push origin master
+@I find 56a9bf19c63d650ce78e6ec0354ee45e
+#Level32 -> Level33
+@after the connection, the system execute uppershell python script
+$0
+@it stop uppershell python script
+cat /etc/bandit_pass/bandit33
+@I find c9c3199ddf4121b10cf581a98d51caee
+#Level33 -> Level34
+@Continue...
